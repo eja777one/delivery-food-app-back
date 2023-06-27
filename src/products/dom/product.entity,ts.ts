@@ -11,7 +11,7 @@ export class Product {
   @Column("character varying", { nullable: false })
   description: string;
 
-  @Column("character varying", { nullable: false })
+  @Column("character varying", { nullable: true })
   composition: string;
 
   @Column("character varying", { nullable: true })
