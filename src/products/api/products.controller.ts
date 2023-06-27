@@ -9,8 +9,9 @@ import { BasicAuthGuard } from "../../pipes&valid/basic.auth.guard.pipe";
 import { ProductInputModel, ProductViewModel } from "../products.types";
 import { AddProductCommand } from "../app/use-cases/add.product.uc";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { AddProductImageCommand } from "../app/use-cases/add.product.image.uc";
+import { AddSmallProductImageCommand } from "../app/use-cases/add.small.product.image.uc";
 import { GetProductsQuery } from "../app/queries/get.products.query";
+import { AddHighProductImageCommand } from "../app/use-cases/add.high.product.image.uc";
 
 @ApiTags("Products")
 @Controller("products")
@@ -35,15 +36,29 @@ export class ProductsController {
   @UseGuards(BasicAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseInterceptors(FileInterceptor("file"))
-  @Post(":id/image")
+  @Post(":id/image-small")
   // @ApiBearerAuth()
   // @ApiOperation(sw_subscribeToBlog.summary)
   // @ApiResponse(sw_subscribeToBlog.status204)
   // @ApiResponse(sw_subscribeToBlog.status401)
   // @ApiResponse(sw_subscribeToBlog.status404)
-  async addProductImage(@UploadedFile() file: Express.Multer.File,
+  async addSmallProductImage(@UploadedFile() file: Express.Multer.File,
                         @Param("id") id: string) {
-    await this.commandBus.execute(new AddProductImageCommand(id, file));
+    await this.commandBus.execute(new AddSmallProductImageCommand(id, file));
+  };
+
+  @UseGuards(BasicAuthGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseInterceptors(FileInterceptor("file"))
+  @Post(":id/image-high")
+  // @ApiBearerAuth()
+  // @ApiOperation(sw_subscribeToBlog.summary)
+  // @ApiResponse(sw_subscribeToBlog.status204)
+  // @ApiResponse(sw_subscribeToBlog.status401)
+  // @ApiResponse(sw_subscribeToBlog.status404)
+  async addHighProductImage(@UploadedFile() file: Express.Multer.File,
+                             @Param("id") id: string) {
+    await this.commandBus.execute(new AddHighProductImageCommand(id, file));
   };
 
   @Get()

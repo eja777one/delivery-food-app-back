@@ -11,8 +11,14 @@ export class Product {
   @Column("character varying", { nullable: false })
   description: string;
 
+  @Column("character varying", { nullable: false })
+  composition: string;
+
   @Column("character varying", { nullable: true })
-  imgUrl: string;
+  imgUrlSmall: string;
+
+  @Column("character varying", { nullable: true })
+  imgUrlHigh: string;
 
   @Column("character varying", { nullable: false })
   category: string;

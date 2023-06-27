@@ -6,11 +6,13 @@ import { ProductsController } from "./api/products.controller";
 import { ProductsRepository } from "./inf/products.db.repo";
 import { AddProductUseCase } from "./app/use-cases/add.product.uc";
 import { ProductsQueryRepository } from "./inf/products.q.repo";
-import { AddProductImageUseCase } from "./app/use-cases/add.product.image.uc";
+import { AddSmallProductImageUseCase } from "./app/use-cases/add.small.product.image.uc";
 import { S3StorageAdapter } from "../application/files.storage.adapter";
 import { GetProductsHandler } from "./app/queries/get.products.query";
+import { AddHighProductImageUseCase } from "./app/use-cases/add.high.product.image.uc";
 
-const productsUseCases = [AddProductUseCase, AddProductImageUseCase];
+const productsUseCases = [AddProductUseCase, AddSmallProductImageUseCase,
+  AddHighProductImageUseCase];
 const productsQueries = [GetProductsHandler];
 const productsAdapters = [ProductsRepository, ProductsQueryRepository];
 

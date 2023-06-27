@@ -22,8 +22,29 @@ export class S3StorageAdapter {
     });
   };
 
-  async saveProductImage(productId: string, file: any) {
-    let key = `products/${productId}/images/${file.originalname}`;
+  async saveProductImageSmall(productId: string, file: any) {
+    let key = `products/${productId}/images/${file.originalname}_small`;
+
+    const bucketParams = {
+      Bucket: this.bucket,
+      Key: key,
+      Body: file.buffer,
+      ContentType: file.mimetype
+    };
+
+    const command = new PutObjectCommand(bucketParams);
+
+    try {
+      const uploadResult = await this.s3client.send(command);
+      // console.log(uploadResult);
+      return { url: key, fileId: uploadResult.ETag };
+    } catch (e) {
+      return errorHandler(e);
+    }
+  };
+
+  async saveProductImageHigh(productId: string, file: any) {
+    let key = `products/${productId}/images/${file.originalname}_high`;
 
     const bucketParams = {
       Bucket: this.bucket,

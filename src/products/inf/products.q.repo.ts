@@ -47,6 +47,7 @@ export class ProductsQueryRepository {
 const formatProduct = (product: any) => {
   return {
     ...product,
-    imgUrl: process.env.STORAGE_URL + product.imgUrl
+    imgUrlSmall: process.env.STORAGE_URL + product.imgUrlSmall,
+    imgUrlHigh: process.env.STORAGE_URL + product.imgUrlHigh,
   };
 };

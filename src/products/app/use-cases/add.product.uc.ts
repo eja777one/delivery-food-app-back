@@ -31,6 +31,7 @@ export class AddProductUseCase implements ICommandHandler<AddProductCommand> {
     product.id = productId;
     product.name = command.productInput.name;
     product.description = command.productInput.description;
+    product.composition = command.productInput.composition;
     product.category = command.productInput.category;
     product.weight = command.productInput.weight;
     product.price = command.productInput.price;

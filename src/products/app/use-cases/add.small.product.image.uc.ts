@@ -5,32 +5,32 @@ import { S3StorageAdapter } from "../../../application/files.storage.adapter";
 import { makeErorrMessage } from "../../../application/make.error.message";
 import sharp from "sharp";
 
-export class AddProductImageCommand {
+export class AddSmallProductImageCommand {
   constructor(public id: string, public file: Express.Multer.File) {
   };
 };
 
-@CommandHandler(AddProductImageCommand)
-export class AddProductImageUseCase
-  implements ICommandHandler<AddProductImageCommand> {
+@CommandHandler(AddSmallProductImageCommand)
+export class AddSmallProductImageUseCase
+  implements ICommandHandler<AddSmallProductImageCommand> {
   constructor(
     protected productsRepository: ProductsRepository,
     private fileStorageAdapter: S3StorageAdapter
   ) {
   };
 
-  async execute(command: AddProductImageCommand) {
+  async execute(command: AddSmallProductImageCommand) {
     const metadata = await this.validateImage(command.file);
 
     const product = await this.productsRepository.getProduct(command.id);
     if (!product) throw new NotFoundException();
-    if (product.imgUrl) return;
+    if (product.imgUrlSmall) return;
 
-    const image = await this.fileStorageAdapter.saveProductImage(
+    const image = await this.fileStorageAdapter.saveProductImageSmall(
       product.id, command.file);
     if (!image) throw new NotFoundException();
 
-    product.imgUrl = image.url;
+    product.imgUrlSmall = image.url;
 
     const saveProduct = await this.productsRepository.saveProduct(product);
     if (!saveProduct) throw new NotFoundException();
@@ -49,9 +49,9 @@ export class AddProductImageUseCase
     const errors = [];
     const metadata = await sharp(image.buffer).metadata();
 
-    if (metadata.size > 1024 * 150) errors.push("size");
-    if (metadata.width !== 570) errors.push("width");
-    if (metadata.height !== 400) errors.push("height");
+    if (metadata.size > 1024 * 100) errors.push("size");
+    if (metadata.width !== 325) errors.push("width");
+    if (metadata.height !== 227) errors.push("height");
 
     if (errors.length !== 0) {
       const formatErr = errors.map(err =>

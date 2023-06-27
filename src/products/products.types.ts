@@ -8,6 +8,8 @@ export class ProductInputModel {
   @IsString(makeErorrMessage("description"))
   @Length(10, 200)
   description: string;
+  @Length(10, 200)
+  composition: string;
   @IsString(makeErorrMessage("category"))
   @Length(10, 50)
   category: string;
@@ -29,8 +31,10 @@ export class ProductViewModel {
   id: string;
   name: string;
   description: string;
+  composition: string;
   category: string;
-  imgUrl: string;
+  imgUrlHigh: string;
+  imgUrlSmall: string;
   weight: number;
   price: number;
   proteins: number;
